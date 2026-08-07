@@ -24,9 +24,10 @@ RUN git clone https://github.com/komari-monitor/komari-web.git /tmp/komari-web &
     cd /tmp/komari-web && \
     npm install && \
     npm run build && \
-    # 将构建产物放置到后端期望的目录（web/public/defaultTheme）
+    # 创建后端需要的主题目录，并复制整个 dist 目录（包含所有静态资源）
     mkdir -p web/public/defaultTheme && \
-    cp -r /tmp/komari-web/dist/* web/public/defaultTheme/dist/ && \
+    cp -r /tmp/komari-web/dist web/public/defaultTheme/ && \
+    # 如果存在主题配置文件也一并复制（可能不存在，忽略错误）
     cp /tmp/komari-web/komari-theme.json web/public/defaultTheme/ 2>/dev/null || true
 
 # ---------- 3. 编译 Go 二进制 ----------
